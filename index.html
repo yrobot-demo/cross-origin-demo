@@ -3,16 +3,31 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cross-Origin test</title>
 </head>
 
 <body>
   <h1 onclick='clickTitle()'>Cross-Origin test</h1>
-  <h1 id="test"></h1>
+  <h1 onclick='login()'>Login</h1>
+  <h1 onclick='logout()'>Logout</h1>
+  <iframe src="http://cross1:3000/static/auth.html" style="position: absolute;width: 1px;height: 1px;" id="auth-iframe"
+    frameborder="0"></iframe>
   <!-- <img src="http://cross1:3000" alt="" srcset=""> -->
-  <script src="http://cross1:5500/cross.js"></script>
+  <!-- <script src="http://cross1:5500/cross.js"></script> -->
+  <script>
+    const iframeWindow = document.getElementById('auth-iframe').contentWindow
+    const login = () => {
+      iframeWindow.postMessage({
+        type: 'LOGIN'
+      }, 'http://cross1:3000')
+    }
+    const logout = () => {
+      iframeWindow.postMessage({
+        type: 'LKOGOUT'
+      }, 'http://cross1:3000')
+    }
+  </script>
 </body>
 
 </html>

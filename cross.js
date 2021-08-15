@@ -1,4 +1,4 @@
-fetch("http://cross1:3000", {
+fetch("http://cross1:3000/login", {
   headers: {
     "content-type": "application/json",
   },
