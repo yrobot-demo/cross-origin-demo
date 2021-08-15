@@ -10,6 +10,7 @@
 <body>
   <h1 onclick='clickTitle()'>Cross-Origin test</h1>
   <h1 onclick='login()'>Login</h1>
+  <h1 onclick='info()'>Info</h1>
   <h1 onclick='logout()'>Logout</h1>
   <iframe src="http://cross1:3000/static/auth.html" style="position: absolute;width: 1px;height: 1px;" id="auth-iframe"
     frameborder="0"></iframe>
@@ -22,9 +23,14 @@
         type: 'LOGIN'
       }, 'http://cross1:3000')
     }
+    const info = () => {
+      iframeWindow.postMessage({
+        type: 'INFO'
+      }, 'http://cross1:3000')
+    }
     const logout = () => {
       iframeWindow.postMessage({
-        type: 'LKOGOUT'
+        type: 'LOGOUT'
       }, 'http://cross1:3000')
     }
   </script>

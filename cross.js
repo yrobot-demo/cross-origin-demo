@@ -1,9 +1,11 @@
+const data = {};
+
 fetch("http://cross1:3000/login", {
   headers: {
     "content-type": "application/json",
   },
-  credentials:'include',
-  body: JSON.stringify({}), // must match 'Content-Type' header
+  credentials: "include",
+  body: JSON.stringify(data), // must match 'Content-Type' header
   method: "POST", // *GET, POST, PUT, DELETE, etc.
 })
   .then(function (response) {

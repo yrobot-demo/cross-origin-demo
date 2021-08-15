@@ -8,42 +8,71 @@
 
 <body>
   <script>
-
-    const login = () => {
+    const login = (data = {}) =>
       fetch("http://cross1:3000/login", {
         headers: {
           "content-type": "application/json",
-          token: localStorage.getItem('token')
+          token: localStorage.getItem("token") || "",
         },
-        credentials: 'include',
-        body: JSON.stringify({}), // must match 'Content-Type' header
+        body: JSON.stringify(data), // must match 'Content-Type' header
         method: "POST", // *GET, POST, PUT, DELETE, etc.
       })
         .then(function (response) {
           return response.json();
         })
-        .then(function (myJson) {
-          console.log(myJson);
-          const { token } = myJson || {}
-          localStorage.setItem('token', token)
+        .then(function (res) {
+          const { token } = res?.data || {};
+          localStorage.setItem("token", token);
+          return res?.data;
         });
-    }
+    const getInfo = (data = {}) =>
+      fetch("http://cross1:3000/info", {
+        headers: {
+          "content-type": "application/json",
+          token: localStorage.getItem("token") || "",
+        },
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (res) {
+          return res?.data;
+        });
 
     const logout = () => {
-      localStorage.removeItem('token')
-    }
+      localStorage.removeItem("token");
+    };
 
-    window.addEventListener("message", function (event) {
-      const { type } = event.data || {}
-      switch (type) {
-        case 'LOGIN':
-          login()
-          break;
-        case 'LKOGOUT':
-          logout()
-          break;
-      }
-    }, false)
+    window.addEventListener(
+      "message",
+      async function (event) {
+        const { type } = event.data || {};
+        var res
+        switch (type) {
+          case "LOGIN":
+            res = await login({
+              username: "yrobot",
+              password: "yrobot-psd",
+            });
+            break;
+          case "INFO":
+            res = await getInfo();
+            break;
+          case "LOGOUT":
+            logout();
+            break;
+        }
+        event.source.postMessage(
+          {
+            type,
+            data: res,
+          },
+          "*"
+        );
+      },
+      false
+    );
   </script>
 </body>
 
